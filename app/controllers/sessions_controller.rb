@@ -28,6 +28,7 @@ class SessionsController < ApplicationController
         user = User.find_by(email: params[:email])
     
         # you can use bcrypt to password authentication
+        # search -------- bcrypt
         if user && user.password == params[:password]
 
           # we encrypt user info using the pre-define methods in application controller
@@ -38,5 +39,9 @@ class SessionsController < ApplicationController
         else
           render json: { message: "invalid credentials" }
         end
+      end
+
+      def logout
+        
       end
 end
