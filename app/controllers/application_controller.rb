@@ -34,7 +34,7 @@ class ApplicationController < ActionController::API
         token = JWT.encode payload, ENV["AUTHENTICATION_SECRET"], "HS256"
         
         binding.break
-        session = JwtToken.create(token: token,exp_date: payload[:exp] ,user_id: 5)
+        session = JwtToken.create(token: token,exp_date: payload[:exp] ,user_id: payload[:user_data])
     
         token
         
@@ -52,6 +52,7 @@ class ApplicationController < ActionController::API
       JWT.decode token, ENV["AUTHENTICATION_SECRET"], true, { algorithm: "HS256" }
 
     rescue => e
+      # render json: {message: "invalid crendentials"}, status: :401
       puts e
     end
   end
