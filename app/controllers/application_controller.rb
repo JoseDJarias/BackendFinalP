@@ -26,18 +26,17 @@ class ApplicationController < ActionController::API
 
     # turn user data (payload) to an encrypted string  [ A ]
     def encode_user_data(payload)
-      # binding.break
-      # token = JWT.encode payload, SECRET, "HS256"
 
-      exp = Time.now.to_i + 3000
-      exp_payload = { user_data: payload[:user_data], exp: exp }
+      payload[:exp] = Time.now.to_i + 3000
+      # exp_payload = { user_data: payload[:user_data], exp: exp }
 
       begin
-        token = JWT.encode exp_payload, ENV["AUTHENTICATION_SECRET"], "HS256"
+        token = JWT.encode payload, ENV["AUTHENTICATION_SECRET"], "HS256"
+        
         binding.break
-        cleaned_value = token.delete('"')
-        session = JwtToken.create(token: cleaned_value,exp_date: exp  ,user_id: 5)
-        return token
+        session = JwtToken.create(token: token,exp_date: payload[:exp] ,user_id: 5)
+    
+        token
         
       rescue => exception
           # Handle invalid token, e.g. logout user or deny access
@@ -49,9 +48,9 @@ class ApplicationController < ActionController::API
       # decode token and return user info, this returns an array, [payload and algorithms] [ A ]
   def decode_user_data(token)
     begin
-      # binding.pry
-      data = JWT.decode token, ENV["AUTHENTICATION_SECRET"], true, { algorithm: "HS256" }
-      return data
+      
+      JWT.decode token, ENV["AUTHENTICATION_SECRET"], true, { algorithm: "HS256" }
+
     rescue => e
       puts e
     end

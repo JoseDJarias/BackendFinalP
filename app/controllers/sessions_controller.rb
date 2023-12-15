@@ -3,11 +3,6 @@ class SessionsController < ApplicationController
     # Use bcrypt for user authentication with password_digest -- a most--
     # Implementar una manera de expirar tokens
     
-    # Utilizar una tabla llamado JWTokens para mantener sesiones, ejemplo:
-    # expires_at = exp_time.to_i
-    # payload[:exp] = expires_at
-    # JWT.encode(payload, ENV['token_secret'], 'HS256')
-
     def signup
         user = User.new(email: params[:email], password: params[:password])
     
@@ -43,8 +38,7 @@ class SessionsController < ApplicationController
 
       def logout
     
-        user = User.find_by(email: params[:email])
-        render json: user
+        
      
       end
 end
