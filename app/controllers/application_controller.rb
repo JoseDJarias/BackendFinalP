@@ -2,8 +2,6 @@ class ApplicationController < ActionController::API
 
     protected
 
-    SECRET = ENV["AUTHENTICATION_SECRET"]
-
     def authentication
       # making a request to a secure route, token must be included in the headers
       decode_data = decode_user_data(request.headers["token"])
@@ -35,8 +33,8 @@ class ApplicationController < ActionController::API
       exp_payload = { user_data: payload[:user_data], exp: exp }
 
       begin
-        token = JWT.encode exp_payload, SECRET, "HS256"
-
+        token = JWT.encode exp_payload, ENV["AUTHENTICATION_SECRET"], "HS256"
+        binding.break
         cleaned_value = token.delete('"')
         session = JwtToken.create(token: cleaned_value,exp_date: exp  ,user_id: 5)
         return token
@@ -52,7 +50,7 @@ class ApplicationController < ActionController::API
   def decode_user_data(token)
     begin
       # binding.pry
-      data = JWT.decode token, SECRET, true, { algorithm: "HS256" }
+      data = JWT.decode token, ENV["AUTHENTICATION_SECRET"], true, { algorithm: "HS256" }
       return data
     rescue => e
       puts e
