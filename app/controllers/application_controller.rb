@@ -22,7 +22,7 @@ class ApplicationController < ActionController::API
         if user
           return true
         else
-          render json: { message: "invalid credentials" }, status: 401
+          render json: { message: "invalid credentials" }, status: :unauthorized
         end
       end
 

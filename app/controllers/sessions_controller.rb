@@ -37,12 +37,14 @@ class SessionsController < ApplicationController
           # return to user
           render json: { token: token }
         else
-          render json: { message: "invalid credentials" }
+          render json: { message: "invalid credentials" },  status: :unauthorized
         end
       end
 
       def logout
-
+    
+        user = User.find_by(email: params[:email])
+        render json: user
      
       end
 end
