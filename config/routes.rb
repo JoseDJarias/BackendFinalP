@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   # root "posts#index"
   post "/login", to: "sessions#login"
   post "/signup", to: "sessions#signup"
-  post "/logout", to: "sessions#logout" 
+  delete "/logout", to: "sessions#logout" 
+
   resources :todos
 end

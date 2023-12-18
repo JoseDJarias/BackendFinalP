@@ -37,15 +37,20 @@ class SessionsController < ApplicationController
       end
 
       def logout
-        binding.break
-        token = request.headers["token"]
-        db_token = JwtToken.find_by_token(token)
-
-        # Antes de hacer el render expire el token que le pasaron, porque sigue siendo válido.
-        db_token.exp_date= -2.days.from_now
-        # Si devolvió algo, entonces remuevalo
-        db_token.destroy if db_token.present?
+    
+        db_token = JwtToken.find_by_token(request.headers["token"])
+       
+        
+        if db_token.present?
+          db_token.destroy 
+          render json:{message:'Session destroyed'}
+          # buscar status del logout
+        else
+          render json:{message:'Token not found'}
+        end
         
      
       end
+
+      
 end

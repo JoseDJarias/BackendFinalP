@@ -1,5 +1,5 @@
 class TodosController < ApplicationController
-    before_action :authentication
+    before_action :authorization
     
     def index
         users = User.all

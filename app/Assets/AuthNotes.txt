@@ -1,1 +1,9 @@
-I'll take the advice from professor Jose and make a JTW table that stores 
+Guide with JWT REFRESH TOKEN: https://gist.github.com/jesster2k10/e626ee61d678350a21a9d3e81da2493e
+
+
+Authentication from scratch: https://www.honeybadger.io/blog/rails-user-authentication-from-scratch/
+
+Custom Exception: https://www.honeybadger.io/blog/ruby-custom-exceptions/
+
+An application health monitoring tool built by developers for developers.
+https://www.honeybadger.io/
