@@ -26,7 +26,7 @@ group :development do
   gem 'pry-nav'
 ;
 
-***Remember to execute bundle install after adding this gem in the Gemfile***
+***Remember to execute bundle install after adding gems in the Gemfile***
 
 * Configuration
 
