@@ -7,9 +7,26 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
-  post "/login", to: "sessions#login"
-  post "/signup", to: "sessions#signup"
-  delete "/logout", to: "sessions#logout" 
+  
+  
+  namespace :api do
+    
+    namespace :admin do 
+      
+      resources :products
+      
+    end  
+    
+    namespace :users do
+
+      resources :products ,only: [:index, :show]
+      
+    end  
+    # sessions actions
+    post "/login", to: "sessions#login"
+    post "/signup", to: "sessions#signup"
+    delete "/logout", to: "sessions#logout" 
+  end  
 
   resources :todos
 end

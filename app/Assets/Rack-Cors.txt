@@ -1,0 +1,1 @@
+Github Guide: https://github.com/cyu/rack-cors

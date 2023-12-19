@@ -1,4 +1,4 @@
-class SessionsController < ApplicationController
+class Api::SessionsController < ApplicationController
 
     # Use bcrypt for user authentication with password_digest -- a most--
     # Implementar una manera de expirar tokens
