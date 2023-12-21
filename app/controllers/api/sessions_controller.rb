@@ -30,9 +30,9 @@ class Api::SessionsController < ApplicationController
           token = encode_user_data({ user_data: user.id })
     
           # return to user
-          render json: { token: token }
+          render json: { token: token }, status: :ok
         else
-          render json: { message: "invalid credentials" },  status: :unauthorized
+          render json: { message: "invalid credentials" },  status: :accepted
         end
       end
 
@@ -43,7 +43,7 @@ class Api::SessionsController < ApplicationController
         
         if db_token.present?
           db_token.destroy 
-          render json:{message:'Session destroyed'}
+          render json:{message:'Session destroyed'}, status: :ok
           # buscar status del logout
         else
           render json:{message:'Token not found'}
