@@ -4,6 +4,7 @@ class Api::SessionsController < ApplicationController
     # Implementar una manera de expirar tokens
     
     def signup
+      begin
         user = User.new(email: params[:email], password: params[:password])
     
         # if user is saved
@@ -14,10 +15,12 @@ class Api::SessionsController < ApplicationController
           # return to user
           render json: { token: token }, status: :created
         else
-          # render error message
-          render json: { message: "invalid credentials" }, status: :unauthorized
+          render json: { message: user.errors.full_messages.join(', ') }, status: :unprocessable_entity
         end
+      rescue ActiveRecord::RecordInvalid => e
+        render json: { message: "Invalid data: #{e.message}" }, status: :unprocessable_entity
       end
+    end
     
       def login
         user = User.find_by(email: params[:email])

@@ -3,7 +3,8 @@ class ApplicationController < ActionController::API
     protected
 
     def authorization
-      # making a request to a secure route, token must be included in the headers
+      begin
+        # making a reques t to a secure route, token must be included in the headers
       decode_data = decode_user_data(request.headers["token"])
       # getting user id from a nested JSON in an array.
       user_data = decode_data[0]["user_data"] unless !decode_data
@@ -21,7 +22,13 @@ class ApplicationController < ActionController::API
         return true
       else
         render json: { message: "invalid access" }, status: :unauthorized
+        return
       end    
+      rescue ActiveRecord::RecordNotFound
+        render json: { error: 'invalid access' }, status: :unauthorized
+        return
+      end
+      
     end
 
     # turn user data (payload) to an encrypted string  [ A ]
@@ -38,8 +45,13 @@ class ApplicationController < ActionController::API
         token
         
       rescue => exception
-          # Handle invalid token, e.g. logout user or deny access
-      end
+   # Handle invalid token, e.g. logout user or deny access
+   error_message = exception.message
+
+   # You can then handle the error message as per your requirements,
+   # such as logging it, displaying it to the user, or returning an error response.
+   # For example:
+   render json: { error: error_message }, status: :unprocessable_entity      end
       
   
     end      
