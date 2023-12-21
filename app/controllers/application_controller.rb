@@ -65,7 +65,6 @@ class ApplicationController < ActionController::API
 
     def is_a_valid_token
       begin
-        binding.break
         # db token
       token = JwtToken.find_by_token(request.headers["token"])
       # expiration date for db_token
