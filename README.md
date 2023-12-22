@@ -26,6 +26,9 @@ group :development do
   gem 'pry-nav'
 ;
 
+command to install bycrypt: gem install bcrypt
+Add bycrypt globally in Gemfile: 
+
 ***Remember to execute bundle install after adding gems in the Gemfile***
 
 * Configuration
