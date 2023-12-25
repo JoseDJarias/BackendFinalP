@@ -5,8 +5,8 @@ class Api::SessionsController < ApplicationController
     
     def signup
       begin
-        user = User.new(email: params[:email], password: params[:password])
-    
+        user = User.new(email: params[:email])
+        user.password = params[:password]
         # if user is saved
         if user.save
           # we encrypt user info using the pre-define methods in application controller
@@ -24,19 +24,26 @@ class Api::SessionsController < ApplicationController
     
       def login
         user = User.find_by(email: params[:email])
+
+        if user && user.authenticate(params[:password])
+          token = encode_user_data({ user_data: user.id })
+          render json: { token: token }, status: :ok
+        else
+          render json: { message: "Invalid credentials" }, status: :unauthorized
+        end
     
         # you can use bcrypt to password authentication
         # search -------- bcrypt
-        if user && user.password == params[:password]
+        # if user && user.password == params[:password]
 
-          # we encrypt user info using the pre-define methods in application controller
-          token = encode_user_data({ user_data: user.id })
+        #   # we encrypt user info using the pre-define methods in application controller
+        #   token = encode_user_data({ user_data: user.id })
     
-          # return to user
-          render json: { token: token }, status: :ok
-        else
-          render json: { message: "invalid credentials" },  status: :accepted
-        end
+        #   # return to user
+        #   render json: { token: token }, status: :ok
+        # else
+        #   render json: { message: "invalid credentials" },  status: :accepted
+        # end
       end
 
       def logout

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_12_14_192955) do
+ActiveRecord::Schema[7.1].define(version: 2023_12_25_172902) do
   create_table "jwt_tokens", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "token"
     t.datetime "created_at", null: false
@@ -29,9 +29,9 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_14_192955) do
 
   create_table "users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "email"
-    t.string "password"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "password_digest"
   end
 
   add_foreign_key "jwt_tokens", "users"
