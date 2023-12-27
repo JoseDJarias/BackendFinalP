@@ -4,6 +4,8 @@ class User < ApplicationRecord
 
     has_one :jwt_token
 
+    has_one :people
+
     validates_presence_of :email
     validates_presence_of :password
 

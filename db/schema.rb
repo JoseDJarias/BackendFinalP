@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_12_25_172902) do
+ActiveRecord::Schema[7.1].define(version: 2023_12_27_064429) do
   create_table "jwt_tokens", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "token"
     t.datetime "created_at", null: false
@@ -19,6 +19,16 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_25_172902) do
     t.bigint "user_id", null: false
     t.index ["token"], name: "index_jwt_tokens_on_token"
     t.index ["user_id"], name: "index_jwt_tokens_on_user_id"
+  end
+
+  create_table "people", primary_key: "user_id", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "user_name"
+    t.string "name"
+    t.string "lastname"
+    t.integer "birthdate"
+    t.string "city"
+    t.string "country"
+    t.index ["user_id"], name: "index_people_on_user_id"
   end
 
   create_table "todos", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -35,4 +45,5 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_25_172902) do
   end
 
   add_foreign_key "jwt_tokens", "users"
+  add_foreign_key "people", "users"
 end

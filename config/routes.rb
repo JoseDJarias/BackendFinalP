@@ -22,6 +22,13 @@ Rails.application.routes.draw do
       resources :products ,only: [:index, :show]
       
     end  
+
+       
+    
+
+    resources :people ,only: [:index, :show]
+      
+
     # sessions actions
     post "/login", to: "sessions#login"
     post "/signup", to: "sessions#signup"
