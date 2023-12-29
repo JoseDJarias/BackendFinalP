@@ -8,9 +8,6 @@ class ApplicationController < ActionController::API
       decode_data = decode_user_data(request.headers["token"])
       # getting user id from a nested JSON in an array.
       user_data = decode_data[0]["user_data"] unless !decode_data
-      # binding.pry
-      # find a user in the database to be sure token is for a real user
-      # binding.pry
 
       # REVISAR ESTE LLAMADO A LA BASE DE DATOS 
       user = User.find(user_data)
@@ -21,12 +18,14 @@ class ApplicationController < ActionController::API
       if user && is_a_valid_token
         return true
       else
+        Rails.logger("*** Method: authorization fails, ERROR: #{exception.message} ")
         render json: { message: "invalid access" }, status: :unauthorized
-        return
+        
       end    
       rescue ActiveRecord::RecordNotFound
+        Rails.logger("*** Method: authorization fails, ERROR: #{exception.message} ")
         render json: { error: 'invalid access' }, status: :unauthorized
-        return
+        
       end
       
     end
@@ -34,8 +33,7 @@ class ApplicationController < ActionController::API
     # turn user data (payload) to an encrypted string  [ A ]
     def encode_user_data(payload)
 
-      payload[:exp] = Time.now.to_i + 3000
-      # exp_payload = { user_data: payload[:user_data], exp: exp }
+      payload[:exp] = Time.now.to_i + 60
 
       begin
         token = JWT.encode payload, ENV["AUTHENTICATION_SECRET"], "HS256"
@@ -45,13 +43,10 @@ class ApplicationController < ActionController::API
         token
         
       rescue => exception
-   # Handle invalid token, e.g. logout user or deny access
-   error_message = exception.message
-
-   # You can then handle the error message as per your requirements,
-   # such as logging it, displaying it to the user, or returning an error response.
-   # For example:
-   render json: { error: error_message }, status: :unprocessable_entity      end
+        Rails.logger("*** Method: encode_user_data fails, ERROR: #{exception.message} ")
+        error_message = exception.message
+        render json: { error: error_message }, status: :unprocessable_entity      
+      end
       
   
     end      
@@ -63,8 +58,10 @@ class ApplicationController < ActionController::API
       JWT.decode token, ENV["AUTHENTICATION_SECRET"], true, { algorithm: "HS256" }
 
     rescue JWT::ExpiredSignature
+      Rails.logger("*** Method: decode_user_data fails, ERROR: #{exception.message} ")
       render json: {message: "Invalid Token"}, status: :unauthorized
-    rescue => e
+    rescue => e      
+      Rails.logger("*** Method: decode_user_data fails, ERROR: #{exception.message} ")
       render json: {message: "invalid crendentials"}, status: 401
     end
   end
