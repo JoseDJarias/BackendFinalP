@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::API
 
-    protected
+    public
 
     def authorization
       begin
@@ -37,13 +37,13 @@ class ApplicationController < ActionController::API
 
       begin
         token = JWT.encode payload, ENV["AUTHENTICATION_SECRET"], "HS256"
-        
+
         session = JwtToken.create(token: token,exp_date: payload[:exp] ,user_id: payload[:user_data])
     
         token
         
-      rescue => exception
-        Rails.logger("*** Method: encode_user_data fails, ERROR: #{exception.message} ")
+      rescue JWT::EncodeError=> exception
+        Rails.logger.error("*** Method: encode_user_data fails, ERROR: #{exception.message} ")
         error_message = exception.message
         render json: { error: error_message }, status: :unprocessable_entity      
       end
@@ -57,31 +57,26 @@ class ApplicationController < ActionController::API
       
       JWT.decode token, ENV["AUTHENTICATION_SECRET"], true, { algorithm: "HS256" }
 
-    rescue JWT::ExpiredSignature
-      Rails.logger("*** Method: decode_user_data fails, ERROR: #{exception.message} ")
+    rescue JWT::ExpiredSignature => exception
+      Rails.logger.error("*** Method: decode_user_data fails, ERROR: #{exception.message} ")
       render json: {message: "Invalid Token"}, status: :unauthorized
-    rescue => e      
-      Rails.logger("*** Method: decode_user_data fails, ERROR: #{exception.message} ")
+    rescue => exception      
+      Rails.logger.error("*** Method: decode_user_data fails, ERROR: #{exception.message} ")
       render json: {message: "invalid crendentials"}, status: 401
     end
   end
 
-#   rails logger dentro del rescue para saber cuando hubo fallos
-#   recomendacion de poner un secure para saber si se intento hacer un inicio de sesion
 
-
-
-
-    def is_a_valid_token
-      begin
+  def is_a_valid_token
+    begin
         # db token
-      token = JwtToken.find_by_token(request.headers["token"])
+    token = JwtToken.find_by_token(request.headers["token"])
       # expiration date for db_token
-      token.present? 
-      rescue => exception
-       Rails.logger("*** Method: is_a_valid_token failed, ERROR: #{exception.message} ")
-       false
-      end
-    end    
+    token.present? 
+    rescue => exception
+      Rails.logger("*** Method: is_a_valid_token failed, ERROR: #{exception.message} ")
+      false
+    end
+  end    
 
 end

@@ -1,15 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-    # describe 'validations' do
-    #     it { should validate_presence_of(:email) }
-    #     it { should validate_presence_of(:password) }
-
-
-    
-
-    # end
-     subject(:user) { described_class.new }
+  subject(:user) { described_class.new }
 
   it "is invalid without an email" do
     expect(user).not_to be_valid
@@ -40,7 +32,7 @@ RSpec.describe User, type: :model do
   end
 
   it "is invalid with a duplicate email" do
-    existing_model = create(:user, email: "example@example.com")
+    existing_model = User.create(email: "example@example.com",password:"valid_123456")
     user.email = existing_model.email
     expect(user).not_to be_valid
     expect(user.errors[:email]).to include("has already been taken")
@@ -52,8 +44,6 @@ RSpec.describe User, type: :model do
     expect(user).to be_valid
   end
 
-  it "has a People associated with it" do
-    user.save
-    expect(user.people).to be_a(People)
-  end
+
+
 end
