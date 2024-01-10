@@ -24,7 +24,18 @@ class Api::SessionsController < ApplicationController
 
       if user && user.authenticate(params[:password])
         token = encode_user_data({ user_data: user.id })
-        render json: { token: token }, status: :accepted
+        person = Person.find_by(user_id: user.id)
+        data = {
+          token: token,
+          user_info: {
+            id: user.id,
+            email: user.email,
+            person:person
+            
+          }
+        }
+        
+        render json: { data:data }, status: :accepted
       else
         render json: { message: "Invalid credentials" }, status: :unauthorized
       end

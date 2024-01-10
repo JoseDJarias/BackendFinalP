@@ -10,7 +10,7 @@ class CreatePeople < ActiveRecord::Migration[7.1]
             t.string :user_name
             t.string :name
             t.string :lastname
-            t.integer :birthdate
+            t.date :birthdate
             t.string :city
             t.string :country
             

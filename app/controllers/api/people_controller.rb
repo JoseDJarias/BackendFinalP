@@ -21,7 +21,7 @@ class Api::PeopleController < ApplicationController
     private
 
     def person_params
-        params.require(:person).permit(:name, :email, :password) # Adjust attributes based on your person model
+        params.require(:person).permit(:user_name, :name, :lastname, :birthdate, :city, :country) 
     end
 
 end

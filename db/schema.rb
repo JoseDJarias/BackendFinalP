@@ -25,7 +25,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_27_064429) do
     t.string "user_name"
     t.string "name"
     t.string "lastname"
-    t.integer "birthdate"
+    t.date "birthdate"
     t.string "city"
     t.string "country"
     t.index ["user_id"], name: "index_people_on_user_id"
