@@ -13,6 +13,8 @@ class CreatePeople < ActiveRecord::Migration[7.1]
             t.date :birthdate
             t.string :city
             t.string :country
+
+            
             
           end
       end

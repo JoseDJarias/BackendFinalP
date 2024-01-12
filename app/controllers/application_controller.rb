@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::API
 
-    public
+    protected
 
     def authorization
       begin
