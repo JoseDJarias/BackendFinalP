@@ -23,7 +23,7 @@ Rails.application.routes.draw do
       
     end  
 
-    resources :people ,only: [:index, :show, :update]
+    resources :people ,only: [:create,:index, :show, :update]
       
 
     # sessions actions

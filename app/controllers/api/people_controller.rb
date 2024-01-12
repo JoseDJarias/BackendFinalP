@@ -1,6 +1,16 @@
 class Api::PeopleController < ApplicationController
     before_action :authorization
 
+    def create
+        @person = Person.new(person_params)
+    
+        if @person.save
+          render json: @person, status: :created
+        else
+            render json: { errors: @person.errors.full_messages }, status: :unprocessable_entity
+        end
+      end
+
     def show
 
         person = Person.find(params[:id])   
@@ -21,7 +31,7 @@ class Api::PeopleController < ApplicationController
     private
 
     def person_params
-        params.require(:person).permit(:user_name, :name, :lastname, :birthdate, :city, :country) 
+        params.require(:person).permit(:user_id,:user_name, :name, :lastname, :birthdate, :city, :country) 
     end
 
 end
