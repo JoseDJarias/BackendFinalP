@@ -42,7 +42,7 @@ class Api::SessionsController < ApplicationController
       rescue StandardError => e
         render json: { message: "Unexpected error: #{e.message}" }, status: :internal_server_error
       end
-    end
+    
       
     def login
       user = User.find_by(email: params[:email])
@@ -79,5 +79,6 @@ class Api::SessionsController < ApplicationController
 
     def person_params
       params.require(:person).permit(:user_name, :name, :lastname, :birthdate, :city, :country) 
-    end
-      
+    end      
+
+end    

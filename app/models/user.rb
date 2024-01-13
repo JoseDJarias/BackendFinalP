@@ -6,6 +6,8 @@ class User < ApplicationRecord
 
     has_one :person
 
+    # belongs_to :rol
+
     validates_presence_of :email
     validates_presence_of :password
 
