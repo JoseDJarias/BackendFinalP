@@ -1,5 +1,7 @@
 class Product < ApplicationRecord
 
+    has_many :product_pictures
+
     belongs_to :category
 
     validates_presence_of :id,:name, :description, :unitary_price, :purchase_price, :stock, :available

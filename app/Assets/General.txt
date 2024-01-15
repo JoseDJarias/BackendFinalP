@@ -1,3 +1,8 @@
 turn one specific migration down: rails db:migrate:down VERSION=20240112215339
 
 Default values in migration https://jtway.co/how-to-setup-default-values-for-attributes-in-ruby-on-rails-dd1d2ba38b82
+
+
+Suscribirse a un evento  https://ai.rails-guide.com/es/active_support_instrumentation.html
+
+MIgrations  https://guides.rubyonrails.org/v3.0.3/migrations.html
