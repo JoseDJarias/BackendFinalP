@@ -37,7 +37,8 @@ gem "rack-cors"
 
 gem 'jwt'
 
-
+# Active record analyze gem
+gem "active_model_serializers", "~> 0.10.13"
 gem 'dotenv-rails'
 
 

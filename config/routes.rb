@@ -28,6 +28,10 @@ Rails.application.routes.draw do
         end
       end
 
+      resources :product_pictures, only: [:index, :show] 
+
+
+
     end  
 
     resources :people ,only: [:create,:index, :show, :update]

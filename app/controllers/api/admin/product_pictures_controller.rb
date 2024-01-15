@@ -1,37 +1,53 @@
 class Api::Admin::ProductPicturesController < ApplicationController
+
+    
+    # def create
+    #   product_id = params[:product_id]
+    #   image = params[:image]
+    #     product_picture = ProductPicture.new(product_picture_params)
+
+    #     if product_picture.save
+    #       render json: { message: 'Product picture was successfully created.', product_picture: product_picture }
+    #     else
+            
+    #       render json: { errors: product_picture.errors.full_messages }, status: :unprocessable_entity
+    #     end
+    # end
     def create
-        product_picture = ProductPicture.new(product_picture_params)
-    
-        if params[:file].present?
-          product_picture.source = encode_image(params[:file])
-        end
-    
-        if product_picture.save
-          render json: product_picture, status: :created
-        else
-          render json: product_picture.errors, status: :unprocessable_entity
-        end
+      # Use params to access form data
+      product_id = params[:product_id]
+      image = params[:image]
+  
+      # Validate that product_id is present (you can add more validations as needed)
+      unless product_id.present?
+        render json: { status: 'error', message: 'Product ID is required' }, status: :bad_request
+        return
       end
-    
-      private
-    
-      def encode_image(file)
-        binding.break
-        puts "Original filename: #{file.original_filename}"
-        puts "File path: #{file.path}"
-      
-        encoded_data = Base64.encode64(File.read(file.path))
-        puts "Encoded data length: #{encoded_data.length}"
-      
-        {
-          filename: file.original_filename,
-          data: encoded_data,
-          content_type: file.content_type
-        }
+  
+      # Validate that image is present and is a file
+      unless image.present? && image.respond_to?(:tempfile)
+        render json: { status: 'error', message: 'Image file is required' }, status: :bad_request
+        return
       end
-      
-    
-      def product_picture_params
-        params.require(:product_picture).permit(:product_id)
+  
+      # Your logic to handle the data goes here
+      # For example, you might create a new ProductPicture record:
+  
+      product_picture = ProductPicture.new(product_id: product_id)
+  
+      # Attach the uploaded image to the record
+      product_picture.image.attach(image)
+  
+      # Save the record to the database
+      if product_picture.save
+        render json: { status: 'success', message: 'Product picture created successfully' }
+      else
+        render json: { status: 'error', message: 'Failed to create product picture', errors: product_picture.errors.full_messages }, status: :unprocessable_entity
       end
+    end
+
+    
+
+ 
+  
 end
