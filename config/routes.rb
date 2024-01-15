@@ -19,8 +19,14 @@ Rails.application.routes.draw do
     
     namespace :users do
 
-      resources :products ,only: [:index, :show]
-      
+      resources :products, only: [:index, :show] do
+        collection do
+          get 'create_six_products', to: 'products#create_six_products'
+          get 'random_six', to: 'products#random_six'
+          get 'products_by_category/:category_id', to: 'products#products_by_category'
+        end
+      end
+
     end  
 
     resources :people ,only: [:create,:index, :show, :update]

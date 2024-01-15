@@ -10,27 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_01_12_220019) do
+ActiveRecord::Schema[7.1].define(version: 2024_01_14_202257) do
+  create_table "categories", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "jwt_tokens", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "token"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "exp_date"
-    t.bigint "user_id", null: false
     t.index ["token"], name: "index_jwt_tokens_on_token"
-    t.index ["user_id"], name: "index_jwt_tokens_on_user_id"
-  end
-
-  create_table "people", primary_key: "user_id", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.string "user_name"
-    t.string "name"
-    t.string "lastname"
-    t.date "birthdate"
-    t.string "city"
-    t.string "country"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_people_on_user_id"
   end
 
   create_table "product_pictures", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -61,6 +52,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_12_220019) do
     t.boolean "available"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "category_id"
+    t.index ["category_id"], name: "index_products_on_category_id"
   end
 
   create_table "todos", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -69,10 +62,11 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_12_220019) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "user_roles", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.string "role_name"
+  create_table "user_roles", primary_key: "user_id", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "role_name", default: "user", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_user_roles_on_user_id"
   end
 
   create_table "users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -84,10 +78,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_12_220019) do
     t.index ["user_role_id"], name: "index_users_on_user_role_id"
   end
 
-  add_foreign_key "jwt_tokens", "users"
-  add_foreign_key "people", "users"
   add_foreign_key "product_pictures", "products"
   add_foreign_key "product_reviews", "products"
   add_foreign_key "product_reviews", "users"
-  add_foreign_key "users", "user_roles"
+  add_foreign_key "products", "categories"
+  add_foreign_key "user_roles", "users"
 end

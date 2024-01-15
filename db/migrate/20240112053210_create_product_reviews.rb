@@ -15,7 +15,7 @@ class CreateProductReviews < ActiveRecord::Migration[7.1]
       end 
      
       dir.down do
-        drop_table :products_pictures
+        drop_table :products_reviews
       end
      
     end 

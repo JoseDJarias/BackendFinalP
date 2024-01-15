@@ -6,7 +6,7 @@ class User < ApplicationRecord
 
     has_one :person
 
-    # belongs_to :rol
+    has_one :user_role
 
     validates_presence_of :email
     validates_presence_of :password
@@ -17,5 +17,6 @@ class User < ApplicationRecord
 
     validates :email, uniqueness: true
 
+    
 
 end
