@@ -12,10 +12,14 @@ Rails.application.routes.draw do
   namespace :api do
     
     namespace :admin do 
+
+      patch 'available_state/:id', to: 'products#available_state'
       
       resources :products
 
-      resources :product_pictures      
+      resources :product_pictures     
+      
+      resources :categories
     end  
     
     namespace :users do
@@ -25,6 +29,7 @@ Rails.application.routes.draw do
           get 'create_six_products', to: 'products#create_six_products'
           get 'random_six', to: 'products#random_six'
           get 'products_by_category/:category_id', to: 'products#products_by_category'
+          
         end
       end
 

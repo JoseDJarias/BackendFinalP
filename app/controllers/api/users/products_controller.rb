@@ -1,19 +1,19 @@
 class Api::Users::ProductsController < ApplicationController
     def index
-        products = Product.all
-        render json: products
+      products = Product.all.includes(:product_pictures)
+      render json: products.as_json(include: { product_pictures: { methods: :image_url } })
     end
-
+  
     def show
-        product = Product.find(params[:id])
-        render json: product
+      product = Product.find(params[:id])
+      render json: product.as_json(include: { product_pictures: { methods: :image_url } })
     rescue ActiveRecord::RecordNotFound
-        render json: { error: 'Product not found' }, status: :not_found
+      render json: { error: 'Product not found' }, status: :not_found
     end
 
     def random_six
         random_products = Product.order(Arel.sql('RAND()')).limit(2)
-        render json: random_products
+        render json: random_products.as_json(include: { product_pictures: { methods: :image_url } })
     end    
 
     def products_by_category

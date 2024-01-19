@@ -46,6 +46,7 @@ class Api::SessionsController < ApplicationController
       
     def login
       user = User.find_by(email: params[:email])
+      binding.break
 
       if user && user.authenticate(params[:password])
         token = encode_user_data({ user_data: user.id })

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_01_15_201117) do
+ActiveRecord::Schema[7.1].define(version: 2024_01_18_222432) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -49,7 +49,22 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_15_201117) do
     t.string "token"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "exp_date"
+    t.bigint "user_id", null: false
     t.index ["token"], name: "index_jwt_tokens_on_token"
+    t.index ["user_id"], name: "index_jwt_tokens_on_user_id"
+  end
+
+  create_table "people", primary_key: "user_id", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "user_name"
+    t.string "name"
+    t.string "lastname"
+    t.date "birthdate"
+    t.string "city"
+    t.string "country"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_people_on_user_id"
   end
 
   create_table "product_picture_serializers", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -61,6 +76,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_15_201117) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "product_id"
+    t.string "description"
     t.index ["product_id"], name: "index_product_pictures_on_product_id"
   end
 
@@ -111,6 +127,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_15_201117) do
   end
 
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "jwt_tokens", "users"
+  add_foreign_key "people", "users"
   add_foreign_key "product_pictures", "products"
   add_foreign_key "product_reviews", "products"
   add_foreign_key "product_reviews", "users"
