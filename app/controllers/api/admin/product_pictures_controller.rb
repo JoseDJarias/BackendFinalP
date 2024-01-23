@@ -2,21 +2,9 @@ class Api::Admin::ProductPicturesController < ApplicationController
 
   def create
     begin  
-      # puts "Received #{params[:image].length} picture groups"
-      # Use params to access form data
       product_id = params[:product_id]
       image = params[:image]
       description = params[:description]
-      
-      # Validate product_id, description and image are present 
-      unless product_id.present? 
-        render json: { status: 'error', message: 'Product ID is required' }, status: :bad_request
-        return
-      end
-      unless  description.present? 
-        render json: { status: 'error', message: 'Description is required' }, status: :bad_request
-        return
-      end
       
       # Validate that image is present and is a file
       unless image.present? && image.respond_to?(:tempfile)
@@ -34,6 +22,8 @@ class Api::Admin::ProductPicturesController < ApplicationController
       else
         render json: { message: 'Failed to create the product picture', errors: product_picture.errors.full_messages }, status: :unprocessable_entity
       end
+    rescue ActiveRecord::RecordInvalid => e
+      render json: { message: "Invalid data: #{e.message}" }, status: :unprocessable_entity
     rescue ActiveStorage::IntegrityError => e
       render json: { status: 'error', message: 'Image upload failed: integrity error' }, status: :unprocessable_entity
     rescue ActiveStorage::UnidentifiedImageError => e

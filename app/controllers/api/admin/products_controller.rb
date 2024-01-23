@@ -43,6 +43,11 @@ class Api::Admin::ProductsController < ApplicationController
         render json: { error: e.message }, status: :unprocessable_entity
       end
     end
+
+    def available_products
+      products = Product.where(available: true)
+      render json: products
+    end
   
     
     
