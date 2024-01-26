@@ -31,7 +31,7 @@ class ApplicationController < ActionController::API
 
     # turn user data (payload) to an encrypted string  [ A ]
     def encode_user_data(payload)
-      payload[:exp] = Time.now.to_i + 1000
+      payload[:exp] = Time.now.to_i + 10000
       
       begin
         token = JWT.encode payload, ENV["AUTHENTICATION_SECRET"], "HS256"

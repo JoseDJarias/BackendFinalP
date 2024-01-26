@@ -15,7 +15,9 @@ Rails.application.routes.draw do
 
       patch 'available_state/:id', to: 'products#available_state'
 
-      get 'available_products', to: 'products#available_products'      
+      get 'available_products', to: 'products#available_products'    
+      
+      patch 'update_stock/:id', to: 'products#update_stock'
 
       resources :payment_methods do
         collection do
@@ -26,6 +28,10 @@ Rails.application.routes.draw do
       end  
       
       resources :products
+
+      resources :bills do 
+      
+      end
 
       resources :product_pictures     
       
@@ -56,7 +62,13 @@ Rails.application.routes.draw do
 
     end  
 
-    resources :people ,only: [:create,:index, :show, :update]
+    resources :people ,only: [:create,:index, :show, :update] do
+
+      collection do
+        post 'create_phone_number/:id', to: 'people#create_phone_number'
+
+      end
+    end
       
 
     # sessions actions

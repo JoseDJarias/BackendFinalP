@@ -10,7 +10,7 @@ class Api::Users::ProductsController < ApplicationController
     rescue ActiveRecord::RecordNotFound
       render json: { error: 'Product not found' }, status: :not_found
     end
-
+    
     def random_six
         random_products = Product.order(Arel.sql('RAND()')).limit(2)
         render json: random_products.as_json(include: { product_pictures: { methods: :image_url } })

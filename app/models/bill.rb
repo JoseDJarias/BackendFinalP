@@ -10,6 +10,6 @@ class Bill < ApplicationRecord
 
 
     def image_url
-        Rails.application.routes.url_helpers.rails_blob_path(image, only_path: true) if image.attached?
-      end
+        Rails.application.routes.url_helpers.rails_blob_path(voucher, only_path: true) if voucher.attached?
+    end
 end

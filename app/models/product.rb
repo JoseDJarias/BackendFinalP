@@ -4,6 +4,8 @@ class Product < ApplicationRecord
 
     belongs_to :category
 
+    has_many :product_review
+
     has_many :product_bills
     has_many :bills, through: :product_bills 
 
