@@ -29,11 +29,11 @@ Rails.application.routes.draw do
       
       resources :products
 
-      resources :bills do 
-      
-      end
+      resources :bills 
 
-      resources :product_pictures     
+      resources :product_pictures    
+      
+      resources :user_roles
       
       resources :categories do
         collection do

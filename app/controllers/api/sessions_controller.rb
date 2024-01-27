@@ -2,7 +2,6 @@ class Api::SessionsController < ApplicationController
 
     def signup
       begin
-        binding.break
         user = User.new(email: params[:email])
         user.password = params[:password]
         
@@ -46,7 +45,7 @@ class Api::SessionsController < ApplicationController
     def login
       begin
         user = User.find_by(email: params[:email])
-
+        
         if user && user.authenticate(params[:password])
           token = encode_user_data({ user_data: user.id })
           person = Person.find_by(user_id: user.id)
