@@ -14,6 +14,16 @@ Install native extension: gem install mysql2;
 
 Gemfile: 
 In development and test group add: gem 'rspec-rails';
+y tambien: gem 'shoulda-matchers'
+
+Verifica que el archivo rails_helper.rb incluya la siguiente configuración para cargar las gemas necesarias:  
+
+ Shoulda::Matchers.configure do |config|
+  config.integrate do |with|
+    with.test_framework :rspec
+    with.library :rails
+  end
+end
 
 Uncomment rack-cors for handling Cross-Origin Resource Sharing (CORS);
 
@@ -25,6 +35,9 @@ group :development do
   gem 'pry-remote'
   gem 'pry-nav'
 ;
+
+command to install bycrypt: gem install bcrypt
+Add bycrypt globally in Gemfile: 
 
 ***Remember to execute bundle install after adding gems in the Gemfile***
 

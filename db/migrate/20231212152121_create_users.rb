@@ -8,12 +8,13 @@ class CreateUsers < ActiveRecord::Migration[7.1]
           t.string :email
           t.string :password
           
+          
           t.timestamps
         end
       end   
 
       dir.down do
-        drop_table :user
+        drop_table :users
       end  
      
     end  

@@ -1,7 +1,9 @@
 Guide with JWT REFRESH TOKEN: https://gist.github.com/jesster2k10/e626ee61d678350a21a9d3e81da2493e
 
-
 Authentication from scratch: https://www.honeybadger.io/blog/rails-user-authentication-from-scratch/
+
+Bycrypt: https://github.com/bcrypt-ruby/bcrypt-ruby?tab=readme-ov-file
+https://api.rubyonrails.org/classes/ActiveModel/SecurePassword/ClassMethods.html#method-i-has_secure_password
 
 Custom Exception: https://www.honeybadger.io/blog/ruby-custom-exceptions/
 
