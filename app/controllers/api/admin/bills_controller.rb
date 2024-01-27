@@ -15,7 +15,8 @@ class Api::Admin::BillsController < ApplicationController
         begin
             bill = Bill.all
             render json: bill.as_json(include:{ bills: {include: { product_bills: {include: :product}}} })['bills']
-        rescue 
+          rescue  => e
+            render json:{error: 'Error retrieting the user bills'} 
         end   
     end
 
