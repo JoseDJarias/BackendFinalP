@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::API
 
-    public
+    protected
 
     def authorization
       begin
@@ -15,26 +15,24 @@ class ApplicationController < ActionController::API
       # The barebone of this is to return true or false, as a middleware
       # its main purpose is to grant access or return an error to the user
   
-      if user && is_a_valid_token
+      if user.present? && is_a_valid_token
         return true
-      else
-        Rails.logger("*** Method: authorization fails, ERROR: #{exception.message} ")
-        render json: { message: "invalid access" }, status: :unauthorized
-        
       end    
-      rescue ActiveRecord::RecordNotFound
+      
+      rescue ActiveRecord::RecordNotFound => exception
         Rails.logger("*** Method: authorization fails, ERROR: #{exception.message} ")
         render json: { error: 'invalid access' }, status: :unauthorized
-        
+      rescue ActiveRecord::RecordInvalid => exception
+        Rails.logger("*** Method: authorization fails, ERROR: #{exception.message} ")
+        render json: { message: "Invalid data: #{exception.message}" }, status: :unprocessable_entity
+    
       end
-      
     end
 
     # turn user data (payload) to an encrypted string  [ A ]
     def encode_user_data(payload)
-
-      payload[:exp] = Time.now.to_i + 60
-
+      payload[:exp] = Time.now.to_i + 10000
+      
       begin
         token = JWT.encode payload, ENV["AUTHENTICATION_SECRET"], "HS256"
 

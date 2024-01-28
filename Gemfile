@@ -37,7 +37,8 @@ gem "rack-cors"
 
 gem 'jwt'
 
-
+# Active record analyze gem
+gem "active_model_serializers", "~> 0.10.13"
 gem 'dotenv-rails'
 
 
@@ -46,6 +47,8 @@ group :development, :test do
   gem "debug", platforms: %i[ mri windows ]
   gem 'rspec-rails'
   gem 'shoulda-matchers'
+
+  gem 'faker', require: false
 
 end
 

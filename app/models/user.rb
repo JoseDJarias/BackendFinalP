@@ -4,7 +4,13 @@ class User < ApplicationRecord
 
     has_one :jwt_token
 
-    has_one :people
+    has_one :person
+
+    has_one :user_role
+
+    has_many :bills
+
+    has_one :product_review
 
     validates_presence_of :email
     validates_presence_of :password
@@ -15,5 +21,6 @@ class User < ApplicationRecord
 
     validates :email, uniqueness: true
 
+    
 
 end
